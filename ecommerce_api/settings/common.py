@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #Third party library
     "rest_framework",
     'djoser',
+    'corsheaders',
 
     #Local App
     'api',
@@ -58,6 +59,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ecommerce_api.urls'
+
+
+CORS_ALLOWED_ORIGINS = [
+    "https://ecommerce-api-inht.onrender.com",
+]
 
 TEMPLATES = [
     {
