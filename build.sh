@@ -8,5 +8,6 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 echo "$CREATE_SUPERUSER"
+echo "$DJANGO_SUPERUSER_EMAIL"
 
 
