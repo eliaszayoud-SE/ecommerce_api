@@ -20,8 +20,9 @@ def activation_user_email(request):
 
     print(user)
     print(user.verify_code == verify_code)
+    print(type(user.verify_code))
 
-    if user.verify_code == verify_code:
+    if int(user.verify_code) == verify_code:
         user.is_active = True
         user.save()
         print('done')
