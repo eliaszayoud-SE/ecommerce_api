@@ -7,22 +7,17 @@ from .models import *
 @api_view(['POST'])
 def activation_user_email(request):
     user_email = request.data['email']
-    print(request.data['email'])
-    print(type(user_email))
-    print(request.data['verify_code'])
-    verify_code = int(request.data['verify_code'])
-    print(verify_code)
-    print(type(verify_code))
+    
+    verify_code = request.data['verify_code']
+    
 
     
 
     user = CustomUser.objects.get(email=user_email)
 
-    print(user)
     print(user.verify_code == verify_code)
-    print(type(user.verify_code))
 
-    if int(user.verify_code) == verify_code:
+    if user.verify_code == verify_code:
         user.is_active = True
         user.save()
         print('done')
