@@ -7,7 +7,8 @@ from .models import *
 @api_view(['POST'])
 def activation_user_email(request):
     user_email = request.data['email']
-    verify_code = request.data['verify_code']
+    verify_code = int(request.data['verify_code'])
+
 
     user = CustomUser.objects.get(email=user_email)
     if user.verify_code == verify_code:
