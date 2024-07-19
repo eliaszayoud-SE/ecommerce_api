@@ -7,15 +7,27 @@ from .models import *
 @api_view(['POST'])
 def activation_user_email(request):
     user_email = request.data['email']
+    print(request.data['email'])
+    print(type(user_email))
+    print(request.data['verify_code'])
     verify_code = int(request.data['verify_code'])
+    print(verify_code)
+    print(type(verify_code))
 
+    
 
     user = CustomUser.objects.get(email=user_email)
+
+    print(user)
+    print(user.verify_code == verify_code)
+
     if user.verify_code == verify_code:
         user.is_active = True
         user.save()
+        print('done')
         return Response({'message': 'Email verified successfully.'}, status=status.HTTP_200_OK)
 
+    print('Invalid')
     return Response({'message': 'Invalid verify_code.'}, status=status.HTTP_400_BAD_REQUEST)
 
 # Create your views here.
