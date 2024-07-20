@@ -71,7 +71,7 @@ def reset_password(request):
         user.save()
         return Response({'message': 'Reset password is Done.'},status=status.HTTP_200_OK)
     
-    return Response({'message': 'someting get wrong please try again letter.'},status=status.HTTP_400_BAD_REQUEST)
+    return Response({'message': 'something get wrong please try again letter.'},status=status.HTTP_400_BAD_REQUEST)
 
 
 
