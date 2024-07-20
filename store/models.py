@@ -10,6 +10,7 @@ class Category(models.Model):
 
 
 class Item(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     name_ar = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
