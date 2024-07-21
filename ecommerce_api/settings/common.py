@@ -36,11 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
 
     #Third party library
     "rest_framework",
     'djoser',
     'corsheaders',
+    'cloudinary',
 
     #Local App
     'api',

@@ -11,3 +11,12 @@ ALLOWED_HOSTS = ['ecommerce-api-inht.onrender.com']
 DATABASES = {
 	"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ['CLOUD_NAME'],
+    'API_KEY': os.environ['API_KEY'],
+    'API_SECRET': os.environ['API_SECRET']
+}
