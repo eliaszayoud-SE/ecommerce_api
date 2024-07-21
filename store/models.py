@@ -1,11 +1,12 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     name_ar = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='category/images')
+    image = models.FileField(upload_to='category/images', validators=[FileExtensionValidator(['svg'])])
     date = models.DateField(auto_now_add=True)
 
 
