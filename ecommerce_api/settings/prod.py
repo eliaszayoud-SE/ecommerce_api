@@ -16,9 +16,9 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
 
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ['CLOUD_NAME'],
-    'API_KEY': os.environ['API_KEY'],
-    'API_SECRET': os.environ['API_SECRET']
+    'CLOUD_NAME': f'{os.environ['CLOUD_NAME']}',
+    'API_KEY': f"{os.environ['API_KEY']}",
+    'API_SECRET': f'{os.environ['API_SECRET']}'
 }
 
-print(os.environ['CLOUD_NAME'], os.environ['API_KEY'],os.environ['API_SECRET']  ) 
+print(type(os.environ['CLOUD_NAME']), os.environ['API_KEY'],os.environ['API_SECRET']  ) 
