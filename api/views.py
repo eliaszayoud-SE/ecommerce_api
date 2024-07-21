@@ -26,7 +26,6 @@ def activation_user_email(request):
     print('Invalid')
     return Response({'message': 'Invalid verify_code.'}, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['POST'])
 def forget_password(request):
     email = request.data['email']
