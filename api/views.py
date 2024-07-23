@@ -15,8 +15,6 @@ def activation_user_email(request):
 
     user = CustomUser.objects.get(email=user_email)
 
-    print(user.verify_code == verify_code)
-
     if user.verify_code == verify_code:
         user.is_active = True
         user.save()
