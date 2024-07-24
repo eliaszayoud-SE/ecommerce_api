@@ -32,6 +32,11 @@ class ItemsViewSet(ListModelMixin, GenericViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemsSerializer
 
+    def get_queryset(self):
+        category_id = self.request.query_params.get('categoryId')
+        print(category_id)
+        return Item.objects.filter(category_id=category_id)
+
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
