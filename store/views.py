@@ -28,3 +28,6 @@ class CategoryViewSet(ListModelMixin, GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+class ItemsViewSet(ListModelMixin, GenericViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemsSerializer

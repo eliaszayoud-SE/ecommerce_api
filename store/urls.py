@@ -5,6 +5,7 @@ from . import views
 router = DefaultRouter()
 
 router.register('category', views.CategoryViewSet)
+router.register('item', views.ItemsViewSet)
 
 urlpatterns = [
     path('home_data/', views.home_data)
