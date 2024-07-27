@@ -11,7 +11,8 @@ router.register('item', views.ItemsViewSet)
 urlpatterns = [
     path('home_data/', views.home_data),
     path('add_favorite/', views.add_favorite),
-    path('delete_favorite/', views.delete_favorite)
+    path('delete_favorite/', views.delete_favorite),
+    path('list_favorite/', views.list_favorite)
 ]
 
 urlpatterns += router.urls

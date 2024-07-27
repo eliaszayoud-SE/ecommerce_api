@@ -31,3 +31,9 @@ class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = ['id', 'user_id', 'product_id']
+
+class FavoriteItemSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Item
+        fields = ['id', 'category_id', 'name', 'name_ar', 'description', 'description_ar', 'image', 'count', 'price', 'discount', 'date']

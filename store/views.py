@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Category, Item, Favorite
-from .serializers import CategorySerializer, ItemsSerializer, FavoriteSerializer
+from .serializers import CategorySerializer, ItemsSerializer, FavoriteSerializer, FavoriteItemSerializer
 
 
 @api_view(['GET'])
@@ -92,6 +92,14 @@ def delete_favorite(request):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_favorite(request):
+    user_id = request.user.id
+    favorite = set(Favorite.objects.filter(user_id=user_id).values_list('product_id',flat=True))
 
+    items = Item.objects.filter(id__in=favorite)
+    serializer = FavoriteItemSerializer(items, many=True)
+    print(serializer.data)
+    return Response({'items':serializer.data})
 
-    
