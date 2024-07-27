@@ -3,7 +3,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Category, Item
+from .models import Category, Item, Favorite
 from .serializers import CategorySerializer, ItemsSerializer
 
 
@@ -34,8 +34,18 @@ class ItemsViewSet(ListModelMixin, GenericViewSet):
 
     def get_queryset(self):
         category_id = self.request.query_params.get('categoryId')
-        print(category_id)
-        return Item.objects.filter(category_id=category_id)
+        return Item.objects.filter(category_id=category_id).all()
+    
+    def get_serializer_context(self):
+        favorite_item_ids = set()
+        print(self.request.user)
+        if self.request.user.is_authenticated:
+
+            favorite_item_ids = set(Favorite.objects.filter(user=self.request.user).values_list('product_id', flat=True))
+
+        return {
+            'favorite_item_ids':favorite_item_ids
+        }
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

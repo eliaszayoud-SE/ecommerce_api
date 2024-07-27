@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth import  get_user_model
+
+User = get_user_model()
 
 # Create your models here.
 
@@ -22,3 +25,7 @@ class Item(models.Model):
     price = models.FloatField()
     discount = models.SmallIntegerField()
     date = models.DateField(auto_now_add=True)
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Item, on_delete=models.CASCADE)
