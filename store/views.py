@@ -1,11 +1,12 @@
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import ListModelMixin
-from rest_framework.decorators import api_view
+from rest_framework.mixins import ListModelMixin, DestroyModelMixin, CreateModelMixin
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Category, Item, Favorite
-from .serializers import CategorySerializer, ItemsSerializer
+from .serializers import CategorySerializer, ItemsSerializer, FavoriteSerializer
 
 
 @api_view(['GET'])
@@ -60,3 +61,37 @@ class ItemsViewSet(ListModelMixin, GenericViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response({'items':serializer.data})
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_favorite(request):
+    user_id = request.user.id
+    product_id = request.data['product_id']
+
+    favorite = Favorite.objects.filter(user_id=user_id, product_id=product_id)
+    if not favorite.exists():
+        favorite = Favorite.objects.create(user_id=user_id, product_id=product_id)
+
+    else :
+        favorite = favorite.first()
+
+    favorite_serializer = FavoriteSerializer(favorite)
+    return Response(favorite_serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_favorite(request):
+    user_id = request.user.id
+    product_id = request.data['product_id']
+
+    
+    favorite = Favorite.objects.filter(user_id=user_id, product_id=product_id)
+    favorite.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+    

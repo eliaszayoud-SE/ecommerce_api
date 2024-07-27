@@ -24,3 +24,10 @@ class ItemsSerializer(serializers.ModelSerializer):
         favorite_item_ids = self.context.get('favorite_item_ids', set())
         return obj.id in favorite_item_ids
         
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField()
+    product_id = serializers.IntegerField()
+    class Meta:
+        model = Favorite
+        fields = ['id', 'user_id', 'product_id']
