@@ -3,6 +3,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .models import Category, Item, Favorite
 from .serializers import CategorySerializer, ItemsSerializer
 
@@ -27,10 +28,12 @@ def home_data(request):
 class CategoryViewSet(ListModelMixin, GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticated]
 
 class ItemsViewSet(ListModelMixin, GenericViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemsSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         category_id = self.request.query_params.get('categoryId')
