@@ -154,13 +154,10 @@ def get_count_cart(request):
 
     try:
         cart = Cart.objects.get(user_id=user_id, product_id=product_id)
-        if(cart.qty>0):
-            return Response({'qty':cart.qty})
-        return Response({'qty':0})
+        return Response({'qty':cart.qty})
+        
 
     except:
-        return Response(status=status.HTTP_400_BAD_REQUEST, data={
-            'detali':'No product with the given id'
-        })   
+        return Response({'qty':0})   
 
 
