@@ -134,7 +134,7 @@ def delete_from_cart(request):
             cart.qty -= 1
             if(cart.qty==0):
                 cart.delete()
-                return Response()
+                return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 cart.save()
                 cart_serializer = CartSerializer(cart)
