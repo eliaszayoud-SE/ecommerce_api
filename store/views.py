@@ -150,7 +150,7 @@ def delete_from_cart(request):
 @permission_classes([IsAuthenticated])      
 def get_count_cart(request):
     user_id = request.user.id
-    product_id = request.data['product_id']   
+    product_id = request.query_params.get('categoryId')   
 
     try:
         cart = Cart.objects.get(user_id=user_id, product_id=product_id)
