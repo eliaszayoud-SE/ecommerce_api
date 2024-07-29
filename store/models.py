@@ -29,3 +29,8 @@ class Item(models.Model):
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Item, on_delete=models.CASCADE)
+    qty = models.PositiveIntegerField(default=1)

@@ -5,8 +5,8 @@ from rest_framework.mixins import ListModelMixin, DestroyModelMixin, CreateModel
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Category, Item, Favorite
-from .serializers import CategorySerializer, ItemsSerializer, FavoriteSerializer, FavoriteItemSerializer
+from .models import Category, Item, Favorite, Cart
+from .serializers import CategorySerializer, ItemsSerializer, FavoriteSerializer, FavoriteItemSerializer, CartSerializer
 
 
 @api_view(['GET'])
@@ -103,3 +103,46 @@ def list_favorite(request):
     print(serializer.data)
     return Response({'items':serializer.data})
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_to_cart(request):
+    user_id = request.user.id
+    product_id = request.data['product_id']
+
+
+    try:
+        cart = Cart.objects.get(user_id=user_id, product_id=product_id)
+        cart.qty += 1
+        cart.save()
+    except:
+        cart = Cart.objects.create(user_id=user_id, product_id=product_id)
+        
+    cart_serializer = CartSerializer(cart)
+    return Response(cart_serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_from_cart(request):
+    user_id = request.user.id
+    product_id = request.data['product_id']
+
+
+    try:
+        cart = Cart.objects.get(user_id=user_id, product_id=product_id)
+        if(cart.qty> 0):
+            cart.qty -= 1
+            if(cart.qty==0):
+                cart.delete()
+                return Response()
+            else:
+                cart.save()
+                cart_serializer = CartSerializer(cart)
+                return Response(cart_serializer.data)
+
+        
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No product with the given id'
+        })
+        
