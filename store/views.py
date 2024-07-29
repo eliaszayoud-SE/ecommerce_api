@@ -145,4 +145,22 @@ def delete_from_cart(request):
         return Response(status=status.HTTP_400_BAD_REQUEST, data={
             'detali':'No product with the given id'
         })
-        
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])      
+def get_count_cart(request):
+    user_id = request.user.id
+    product_id = request.data['product_id']   
+
+    try:
+        cart = Cart.objects.get(user_id=user_id, product_id=product_id)
+        if(cart.qty>0):
+            return Response({'qty':cart.qty})
+        return Response({'qty':0})
+
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No product with the given id'
+        })   
+
+
