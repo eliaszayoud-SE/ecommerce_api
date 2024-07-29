@@ -16,6 +16,7 @@ urlpatterns = [
     path('add_to_cart/', views.add_to_cart),
     path('delete_from_cart/', views.delete_from_cart),
     path('get_count_cart/', views.get_count_cart),
+    path('view_cart/', views.view_cart)
 ]
 
 urlpatterns += router.urls

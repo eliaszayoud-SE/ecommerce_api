@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Category, Item, Favorite, Cart
-from .serializers import CategorySerializer, ItemsSerializer, FavoriteSerializer, FavoriteItemSerializer, CartSerializer
+from .serializers import CategorySerializer, ItemsSerializer,CartViewSerializer, FavoriteSerializer, FavoriteItemSerializer, CartSerializer
 
 
 @api_view(['GET'])
@@ -158,6 +158,21 @@ def get_count_cart(request):
         
 
     except:
-        return Response({'qty':0})   
+        return Response({'qty':0})
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def view_cart(request):
+    user_id = request.user.id
+    cart =  Cart.objects.select_related('product__category').filter(user_id=user_id)
+    
+    cart_serializer = CartViewSerializer(cart, many=True)
+    total_price = sum([cart['total_price'] for cart in cart_serializer.data])
+    total_quantity = sum([cart['qty'] for cart in cart_serializer.data])
+    return Response({
+            'cart':cart_serializer.data,
+            'total_quantity':total_quantity,
+            'total_price':total_price
+        })
+    
 
