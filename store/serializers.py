@@ -56,4 +56,4 @@ class CartViewSerializer(serializers.ModelSerializer):
         fields = ['id', 'qty', 'product', 'total_price']
 
     def get_total_price(self, cart):
-        return cart.qty * cart.product.price
+        return cart.qty * cart.product.price - (cart.product.price*cart.product.discount)/100
