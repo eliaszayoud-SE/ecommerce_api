@@ -15,14 +15,18 @@ class FavoriteSerializer(serializers.ModelSerializer):
 class ItemsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     is_favorite = serializers.SerializerMethodField()
+    price_with_discount = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
-        fields = ['id', 'is_favorite', 'category', 'name', 'name_ar', 'description', 'description_ar', 'image', 'count', 'price', 'discount', 'date']
+        fields = ['id', 'is_favorite', 'category', 'name', 'name_ar', 'description', 'description_ar', 'image', 'count', 'price', 'price_with_discount','discount', 'date']
 
     def get_is_favorite(self, obj):
         favorite_item_ids = self.context.get('favorite_item_ids', set())
         return obj.id in favorite_item_ids
+    
+    def get_price_with_discount(self, obj):
+        return obj.price - ((obj.price*obj.discount)/100)
         
 
 class FavoriteSerializer(serializers.ModelSerializer):
