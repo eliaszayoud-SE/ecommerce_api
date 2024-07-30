@@ -5,6 +5,7 @@ from rest_framework.mixins import ListModelMixin, DestroyModelMixin, CreateModel
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
 from .models import Category, Item, Favorite, Cart
 from .serializers import CategorySerializer, ItemsSerializer,CartViewSerializer, FavoriteSerializer, FavoriteItemSerializer, CartSerializer
 
@@ -175,4 +176,12 @@ def view_cart(request):
             'total_price':total_price
         })
     
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])     
+def search(request):
+    search = request.query_params.get('search')
+    print(search)
+    item = Item.objects.filter(Q(name__icontains=search)|Q(name_ar__icontains=search))
+    item_serializer = ItemsSerializer(item, many=True)
+    return Response({'items':item_serializer.data})
 
