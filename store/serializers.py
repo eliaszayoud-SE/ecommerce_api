@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Item, Favorite, Cart
+from .models import Category, Item, Favorite, Cart, Address
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,3 +57,8 @@ class CartViewSerializer(serializers.ModelSerializer):
 
     def get_total_price(self, cart):
         return cart.qty * (cart.product.price - ((cart.product.price*cart.product.discount)/100))
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['id', 'user_id', 'city', 'street', 'phone', 'lat', 'lang']

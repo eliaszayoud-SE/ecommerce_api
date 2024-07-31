@@ -35,3 +35,11 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=1)
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    city = models.CharField(max_length=255)
+    street = models.CharField(max_length=255)
+    phone = models.CharField(max_length=30, null=True, blank=True)
+    lat = models.FloatField()
+    lang = models.FloatField()    

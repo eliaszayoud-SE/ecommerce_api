@@ -185,3 +185,13 @@ def search(request):
     item_serializer = ItemsSerializer(item, many=True)
     return Response({'items':item_serializer.data})
 
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])  
+def add_address(request):
+    user_id = request.user.id
+    city = request.data['city']
+    street = request.data['street']
+    lat = request.data['lat']
+    lang = request.data['lang']
+    phone = request.data['phone']
