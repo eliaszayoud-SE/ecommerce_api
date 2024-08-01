@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
@@ -6,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
-from .models import Category, Item, Favorite, Cart, Address
+from .models import *
 from .serializers import *
 
 
@@ -233,5 +234,18 @@ def view_address(request):
     address_serializer = AddressSerializer(address, many=True)
     return Response({'address':address_serializer.data})
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_coupon(request):
+    coupon_name = request.data['coupon_name']
+    try:
+        coupon = Coupon.objects.get(name=coupon_name, expire_date__gt=datetime.now(), count__gt=0)
+        coupon_serializer = CouponSerializer(coupon)
+        return Response(coupon_serializer.data)
+       
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No Coupon with the given name'
+        })
+  
 

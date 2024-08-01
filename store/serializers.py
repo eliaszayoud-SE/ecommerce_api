@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Item, Favorite, Cart, Address
+from .models import *
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,3 +62,8 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ['id', 'user_id', 'name', 'city', 'street', 'phone', 'lat', 'long']
+
+class CouponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coupon
+        fields = ['id', 'name', 'count', 'discount', 'expire_date']  

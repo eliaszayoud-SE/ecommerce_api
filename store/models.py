@@ -44,3 +44,10 @@ class Address(models.Model):
     phone = models.CharField(max_length=30, null=True, blank=True)
     lat = models.FloatField()
     long = models.FloatField()   
+
+class Coupon(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    count = models.PositiveIntegerField()
+    discount = models.PositiveSmallIntegerField(default=0)
+    expire_date = models.DateTimeField()
+
