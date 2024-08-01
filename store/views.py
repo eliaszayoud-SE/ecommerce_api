@@ -237,7 +237,7 @@ def view_address(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def check_coupon(request):
-    coupon_name = request.data['coupon_name']
+    coupon_name = request.query_params.get('coupon_name')
     try:
         coupon = Coupon.objects.get(name=coupon_name, expire_date__gt=datetime.now(), count__gt=0)
         coupon_serializer = CouponSerializer(coupon)
