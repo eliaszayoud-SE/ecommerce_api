@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import ListModelMixin, DestroyModelMixin, CreateModelMixin
+from rest_framework.mixins import ListModelMixin
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
-from .models import Category, Item, Favorite, Cart
-from .serializers import CategorySerializer, ItemsSerializer,CartViewSerializer, FavoriteSerializer, FavoriteItemSerializer, CartSerializer
+from .models import Category, Item, Favorite, Cart, Address
+from .serializers import *
 
 
 @api_view(['GET'])
@@ -193,5 +193,44 @@ def add_address(request):
     city = request.data['city']
     street = request.data['street']
     lat = request.data['lat']
-    lang = request.data['lang']
+    long = request.data['long']
     phone = request.data['phone']
+
+    address = Address.objects.create(
+        user_id=user_id,
+        city=city,
+        street=street,
+        lat=lat,
+        long=long,
+        phone=phone
+    )
+
+    address_serializer = AddressSerializer(address)
+    return Response(address_serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_address(request):
+    user_id = request.user.id
+    address_id = request.data['address_id']
+
+    try:
+        address = Address.objects.get(id=address_id,user_id=user_id)
+        address.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'detali':'No address with the given id'
+        })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def view_address(request):
+    user_id = request.user.id
+    address = Address.objects.filter(user_id=user_id)
+    address_serializer = AddressSerializer(address, many=True)
+    return Response({'address':address_serializer.data})
+
+
+

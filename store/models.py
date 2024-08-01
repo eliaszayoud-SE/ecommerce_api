@@ -43,4 +43,4 @@ class Address(models.Model):
     street = models.CharField(max_length=255)
     phone = models.CharField(max_length=30, null=True, blank=True)
     lat = models.FloatField()
-    lang = models.FloatField()    
+    long = models.FloatField()   

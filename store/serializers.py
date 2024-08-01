@@ -61,4 +61,4 @@ class CartViewSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ['id', 'user_id', 'city', 'street', 'phone', 'lat', 'lang']
+        fields = ['id', 'user_id', 'city', 'street', 'phone', 'lat', 'long']
