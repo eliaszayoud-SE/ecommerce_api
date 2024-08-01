@@ -193,6 +193,7 @@ def add_address(request):
     city = request.data['city']
     street = request.data['street']
     lat = request.data['lat']
+    print(type(lat))
     long = request.data['long']
     phone = request.data['phone']
 
