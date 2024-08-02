@@ -192,6 +192,7 @@ def search(request):
 def add_address(request):
     user_id = request.user.id
     city = request.data['city']
+    name = request.data['name']
     street = request.data['street']
     lat = request.data['lat']
     print(type(lat))
@@ -201,6 +202,7 @@ def add_address(request):
     address = Address.objects.create(
         user_id=user_id,
         city=city,
+        name = name,
         street=street,
         lat=lat,
         long=long,
